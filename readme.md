@@ -51,12 +51,12 @@ If you receive a hello world, proceed.
 So you can do a curl put request into this url, with this command:
 
 curl -X 'PUT' \
-	<YOUR URL>/evaluate \
+	<YOUR_URL>/evaluate \
 	-H 'accept: application/json' \
 	-H 'Content-Type: application/json' \
 	-d '{"Names":"Cameron Williams", "Age":42.0, "Total_Purchase":11066.8, "Account_Manager":0, "Years":7.22, "Num_Sites":8.0, "Onboard_date":"2013-08-30T07:00:40.000Z", "Location":"10265 Elizabeth Mission Barkerburgh, AK 89518", "Company":"Harvey LLC"}' 
 
-Where <YOUR URL> is just the url that you just created.
+Where <YOUR_URL> is just the url that you just created.
 
 Note that you can change the body as long as you respect this data schema:
 Names: str
