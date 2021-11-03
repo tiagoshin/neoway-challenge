@@ -1,0 +1,59 @@
+dagTimeout: 1800s
+id: template-ced16
+jobs:
+- pysparkJob:
+    mainPythonFileUri: gs://dataproc_shin_scripts3/raw_process.py
+  stepId: job-1a6ec095-raw
+- prerequisiteStepIds:
+  - job-1a6ec095-raw
+  pysparkJob:
+    mainPythonFileUri: gs://dataproc_shin_scripts3/fe_customers.py
+  stepId: job-ce13b7ad-fe_customers
+- prerequisiteStepIds:
+  - job-1a6ec095-raw
+  pysparkJob:
+    mainPythonFileUri: gs://dataproc_shin_scripts3/fe_calendar.py
+  stepId: job-63656f6c-fe_calendar
+- prerequisiteStepIds:
+  - job-63656f6c-fe_calendar
+  - job-ce13b7ad-fe_customers
+  pysparkJob:
+    mainPythonFileUri: gs://dataproc_shin_scripts3/train_evaluate.py
+  stepId: job-dd12d245-train_evaluate
+- prerequisiteStepIds:
+  - job-dd12d245-train_evaluate
+  pysparkJob:
+    mainPythonFileUri: gs://dataproc_shin_scripts3/train.py
+  stepId: job-4c53159b-train
+placement:
+  managedCluster:
+    clusterName: cluster-ae2e
+    config:
+      gceClusterConfig:
+        metadata:
+          PIP_PACKAGES: onnxmltools==1.10.0 onnx==1.8.0 onnxruntime==1.6.0
+          bigquery-connector-version: 1.2.0
+          spark-bigquery-connector-version: 0.21.0
+        networkUri: default
+        zoneUri: us-east1-b
+      initializationActions:
+      - executableFile: gs://goog-dataproc-initialization-actions-us-east1/python/pip-install.sh
+      - executableFile: gs://goog-dataproc-initialization-actions-us-east1/connectors/connectors.sh
+      masterConfig:
+        diskConfig:
+          bootDiskSizeGb: 60
+          bootDiskType: pd-ssd
+          numLocalSsds: 1
+        machineTypeUri: n1-highmem-2
+        numInstances: 1
+      softwareConfig:
+        imageVersion: 2.0.20-ubuntu18
+        optionalComponents:
+        - JUPYTER
+      workerConfig:
+        diskConfig:
+          bootDiskSizeGb: 60
+          bootDiskType: pd-ssd
+          numLocalSsds: 1
+        machineTypeUri: n1-highmem-2
+        numInstances: 2

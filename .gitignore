@@ -1,0 +1,4 @@
+__pycache__
+dataproc_scripts/.ipynb_checkpoints/*
+dataproc_scripts/.ipynb_checkpoints
+serving_api/app/__pycache__
