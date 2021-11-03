@@ -31,11 +31,14 @@ async def root():
 def evaluate(customer: Customer):
     features = _get_features(json.loads(customer.json()))
     decision = _get_decision(features)
-    return {'Churn': decision }
+    return {'Churn': decision}
 
 def _get_features(customer): 
     query_customer = f"SELECT Churned_Before FROM `feature_store.customers_churned_before` WHERE Names = '{customer['Names']}' limit 1"
-    customer["Date_index"] = datetime.strftime(datetime.strptime(customer["Onboard_date"], '%Y-%m-%dT%H:%M:%S.%fZ'), '%Y%m%d')
+    try:
+        customer["Date_index"] = datetime.strftime(datetime.strptime(customer["Onboard_date"], '%Y-%m-%dT%H:%M:%S.%fZ'), '%Y%m%d')
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Date in the wrong format. It should be exactly '%Y-%m-%dT%H:%M:%S.%fZ', example: '2014-09-19T08:46:46.000Z'")        
     query_calendar = f"SELECT Onboard_Year, Onboard_Month, Onboard_DayOfMonth, Onboard_DayOfWeek, Onboard_Quarter, Onboard_WeekOfYear FROM `feature_store.calendar_features` WHERE Date_index = '{customer['Date_index']}' limit 1"
     engine = create_engine(f"bigquery://{os.environ['GOOGLE_PROJECT']}")
     with engine.connect() as connection:
@@ -65,7 +68,6 @@ def _get_decision(features):
     return PipelineModel.transform(typed_features)
 
 class PipelineModel:
-    @staticmethod
     def transform(features):
         storage_client = storage.Client()
         bucket = storage_client.bucket(f"{os.environ['DATA_BUCKET']}")

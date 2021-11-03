@@ -2,28 +2,28 @@ dagTimeout: 1800s
 id: template-ced16
 jobs:
 - pysparkJob:
-    mainPythonFileUri: gs://dataproc_shin_scripts3/raw_process.py
+    mainPythonFileUri: gs://dataproc_shin_scripts4/raw_process.py
   stepId: job-1a6ec095-raw
 - prerequisiteStepIds:
   - job-1a6ec095-raw
   pysparkJob:
-    mainPythonFileUri: gs://dataproc_shin_scripts3/fe_customers.py
+    mainPythonFileUri: gs://dataproc_shin_scripts4/fe_customers.py
   stepId: job-ce13b7ad-fe_customers
 - prerequisiteStepIds:
   - job-1a6ec095-raw
   pysparkJob:
-    mainPythonFileUri: gs://dataproc_shin_scripts3/fe_calendar.py
+    mainPythonFileUri: gs://dataproc_shin_scripts4/fe_calendar.py
   stepId: job-63656f6c-fe_calendar
 - prerequisiteStepIds:
   - job-63656f6c-fe_calendar
   - job-ce13b7ad-fe_customers
   pysparkJob:
-    mainPythonFileUri: gs://dataproc_shin_scripts3/train_evaluate.py
+    mainPythonFileUri: gs://dataproc_shin_scripts4/train_evaluate.py
   stepId: job-dd12d245-train_evaluate
 - prerequisiteStepIds:
   - job-dd12d245-train_evaluate
   pysparkJob:
-    mainPythonFileUri: gs://dataproc_shin_scripts3/train.py
+    mainPythonFileUri: gs://dataproc_shin_scripts4/train.py
   stepId: job-4c53159b-train
 placement:
   managedCluster:

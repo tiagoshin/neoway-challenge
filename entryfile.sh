@@ -7,9 +7,9 @@ gcloud services enable bigquery.googleapis.com bigquerystorage.googleapis.com bi
 echo "----- Defining global variables -----"
 
 PROJECT=$(gcloud config get-value project)
-DATA_BUCKET="neoway-challenge3"
-BIGQUERY_BUCKET="bigquery-tempbucket-nc3"
-SCRIPTS_BUCKET="dataproc_shin_scripts3"
+DATA_BUCKET="neoway-challenge4"
+BIGQUERY_BUCKET="bigquery-tempbucket-nc4"
+SCRIPTS_BUCKET="dataproc_shin_scripts4"
 
 echo " PROJECT $PROJECT "
 echo " DATA_BUCKET $DATA_BUCKET "

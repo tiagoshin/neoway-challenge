@@ -12,7 +12,7 @@ RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyri
 
 RUN apt-get update && apt-get install google-cloud-sdk -y
 
-RUN gcloud auth activate-service-account --key-file ./google_credentials/serviceaccount.json --project=neochallenge
+RUN gcloud auth activate-service-account --key-file ./google_credentials/serviceaccount.json --project=neochallengedoit
 
 RUN pip install jupyter==1.0.0
 
